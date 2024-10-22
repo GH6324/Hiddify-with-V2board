@@ -1,16 +1,21 @@
 # 什么是 V2Hiddify（[View this document in English](./README_en.md)）
 
 V2Hiddify 是基于 [Hiddify-Next](https://github.com/hiddify/hiddify-next) 开发的一个衍生项目。该项目的目的是开发一个跨平台客户端，可以直接与 V2board（Xboard）集成。用户可以使用 VPN 服务提供商的相应账户登录，自动订阅并购买套餐。  
+## 项目进度
+- 截止24年10月16日,所有的功能开发完毕,无致命bug.算是v1.0版本诞生.
+## 加入TG群聊
+
+欢迎加入V2Hiddify TG 群聊来交流和讨论：[V2Hiddify TG 群聊](https://t.me/V2Hiidify)。
 
 ## 功能
-
+- [x] **oss支持**：自动域名切换
 - [x] **使用面板账户登录**：允许用户使用面板账户登录。
 - [x] **注册功能**：提供用户注册功能。
 - [x] **忘记密码**：提供密码恢复功能。
 - [x] **自动订阅**：购买套餐后自动添加订阅。
 - [x] **显示套餐信息**：显示用户当前的套餐信息。
-- [ ] **支付集成**：提供与支付平台的集成功能。
-- [ ] **套餐购买**：允许用户购买不同的套餐。
+- [x] **支付集成**：提供与支付平台的集成功能。
+- [x] **套餐购买**：允许用户购买不同的套餐。
 - [x] **购买后自动订阅**：购买套餐后自动添加订阅。
 - [x] **退出登录**：允许用户退出登录。
 - [x] **语言本地化支持**：支持中英文本地化。
@@ -76,10 +81,8 @@ flutter run
 
 1. **替换面板域名**：
 
-   打开```lib/features/panel/v2board/service/auth_service.dart``` 替换_baseUrl为目标面板地址。  
-   ~~搜索项目中所有 `https://tomato.galen.life` 的地方，并替换为你的面板域名。例如，如果你的面板域名是 `https://example.com`，你可以用以下命令快速替换：~~
+   打开```lib/features/panel/xboard/services/http_service/domain_service.dart``` 替换ossDomain为目标自己的oss地址.[oss模版](https://github.com/GalenBlabla/website-list/blob/master/websites.json)。  
 
-   ~~grep -rl 'https://tomato.galen.life' lib/ | xargs sed -i 's#https://tomato.galen.life#https://example.com#g'~~
 
 2. **替换机场名字**：
 
@@ -104,9 +107,9 @@ flutter run
    ~~grep -rl 'V2Hiddify' lib/ | xargs sed -i 's/V2Hiddify/SuperVPN/g'~~
 
 ### 5. 打包应用
-
+默认无任何代理.
 根据需要打包相应平台的应用：  
-在打包之前我需要进入 `android` 目录下，找到 `gradle.properties` 文件，修改里面的代理 IP 和端口为自己的,如果无需代理，删除systemProp开头的5行即可：
+如果需要配置安卓代理,在打包之前需要进入 `android` 目录下，找到 `gradle.properties` 文件，修改里面的代理 IP 和端口为自己的,如果无需代理，可忽略：
 
   ```properties
   org.gradle.jvmargs=-Xmx4048m -Dfile.encoding=UTF-8
@@ -124,7 +127,13 @@ flutter run
   # 不使用代理的主机（可选）
   systemProp.http.nonProxyHosts=localhost|127.0.0.1
   ```
+**中国大陆境内务必使用gradle镜像地址下载依赖**
+打开```android/gradle/wrapper/gradle-wrapper.properties```根据需要自行选择**gradle**源
+```
+distributionUrl=https://mirrors.cloud.tencent.com/gradle/gradle-7.6.1-bin.zip
 
+# distributionUrl=https\://services.gradle.org/distributions/gradle-7.6.1-bin.zip
+```
 - Android 打包：
 
   ```bash
@@ -171,19 +180,6 @@ flutter run
   <img src="./images/connect_en.jpg" alt="Connect Example EN" width="200"/>
 </p>
 
----
-
-## 打包平台需求介绍
-
-V2Hiddify 项目目前存在一个问题：对于不同的域名，需要分别打包客户端。为了简化这个过程，我计划开发一个自动打包平台。用户可以通过该平台输入目标面板的域名(如 ```https://tomato.galen.life```),和面板名称（如 "V2Hiddify"），平台会自动为该面板生成配置文件并完成打包。
-
-### 实现思路
-
-1. **前端用户输入**：用户在平台上输入域名和面板名称。
-2. **生成配置文件**：后端根据用户输入生成对应的配置文件（例如 `config.toml`）。
-3. **触发打包脚本**：后端调用打包脚本（如 `build.sh`），根据配置文件进行打包。
-4. **下载链接**：打包完成后，生成下载链接供用户下载。
----
 ## 欢迎提交 Pull Request 🎉
 
 非常感谢你对本项目的关注！欢迎所有形式的贡献，无论是修复 bug、改进文档，还是增加新功能。如果你有好的想法或发现需要改进的地方，欢迎提交 PR！
@@ -209,3 +205,15 @@ V2Hiddify 项目目前存在一个问题：对于不同的域名，需要分别�
 ### 我期待你的贡献！
 
 如果你有任何疑问或需要帮助，请随时在 Issue 中提问。我会尽快回复并协助你解决问题。感谢你的支持和贡献！🚀
+
+### 支持本项目
+
+个人开发者不易，如果你觉得本项目对你有帮助，欢迎打赏支持。  
+
+**钱包地址 (USDT-TRC20)：**
+```
+TFPvpxb5k2mYYcvABe5BrCz7Tt6BhnZxxj
+```
+
+
+<img src="images/usdt_trc20.png" alt="USDT TRC20 收款码" width="500"/>
